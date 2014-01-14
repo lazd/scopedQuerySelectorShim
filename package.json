@@ -1,0 +1,25 @@
+{
+  "name": "rootedQuerySelectorAll",
+  "version": "0.0.0",
+  "author": "Larry Davis <lazdnet@gmail.com>",
+  "description": "querySelectorAll that can be called against immediate children",
+  "license": "Public Domain",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lazd/rootedQuerySelectorAll.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-karma": "~0.6.2",
+    "karma": "~0.10.5",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-mocha": "~0.1",
+    "karma-chai": "0.0.2"
+  }
+}
