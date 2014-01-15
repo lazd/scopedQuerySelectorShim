@@ -1,15 +1,15 @@
 {
-  "name": "rootedQuerySelectorAll",
+  "name": "scopedQuerySelectorShim",
   "version": "0.0.0",
   "author": "Larry Davis <lazdnet@gmail.com>",
-  "description": "querySelectorAll that can be called against immediate children",
+  "description": "querySelector/querySelectorAll shims that enable the use of :scope",
   "license": "Public Domain",
   "scripts": {
     "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:lazd/rootedQuerySelectorAll.git"
+    "url": "git@github.com:lazd/scopedQuerySelectorShim.git"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

@@ -1,25 +1,45 @@
-# rootedQuerySelectorAll
-> querySelectorAll that can be called against immediate children
+# scopedQuerySelectorShim
+> querySelector/querySelectorAll shims that enable the use of :scope
 
-* Uses [`:scope`][:scope] if available
-	* Falls back to an ID-based `querySelectorAll` call against the the parent if not
-* Can be called on an element that does not have an ID
-* Can be called on an element that is not currently in the DOM
+## What is :scope in the context of querySelector?
+
+`:scope`, when combined with the immediate child selector `>`, lets you query for elements that are immediate children of a [HTMLElement] instance.
+
+For instance, you might want to find all list items of an unordered list that is an immediate child of `node`:
+
+```javascript
+var listItems = node.querySelector(':scope > ul > li');
+```
+
+This is effectively equivalent to using [jQuery's `find()`][jQuery.find]:
+
+```javascript
+var $listItems = $(node).find('> ul > li');
+```
+
+See the [Mozilla Developer Network article on :scope][:scope] for more information.
 
 
 ## Usage
 
-To perform a query rooted to a particular element:
+Simply include the JavaScript file:
 
-```javascript
-var nodeList = rootedQuerySelectorAll(rootElement, '> ul > li');
+```html
+<script src="scopeQuerySelectorShim.js"></script>
 ```
 
-This is equivalent to using jQuery's `find()`:
 
-```javascript
-var $nodeList = $(rootElement).find('> ul > li');
-```
+## Notes
+
+* Tests `:scope` support before inserting itself, and uses it if it's available
+  * Falls back to an ID-based `querySelector` call against the the parent if not
+* Shimmed `querySelectorAll` returns a [NodeList], just like the native method
+* Can be called on an element that does not have an ID
+* Can be called on an element that is not currently in the DOM
+* Modifies `HTMLElement.prototype`
+* `Document.prototype`'s `querySelector`/`querySelectorAll` methods are not shimmed
+  * `:scope` is not relevant at the document level
+  * Use `document.documentElement.querySelector` instead without `:scope`
 
 
 ## Tests
@@ -34,7 +54,10 @@ grunt test
 
 ## License
 
-This software is public domain.
+scopedQuerySelectorShim is licensed under the permissive BSD license.
 
 
 [:scope]: https://developer.mozilla.org/en-US/docs/Web/CSS/:scope
+[NodeList]: https://developer.mozilla.org/en-US/docs/Web/API/NodeList
+[HTMLElement]: http://mdn.io/HTMLElement
+[jQuery.find]: http://api.jquery.com/find/
