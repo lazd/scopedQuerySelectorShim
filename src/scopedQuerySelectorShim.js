@@ -13,9 +13,9 @@
     container.querySelectorAll(':scope *');
   }
   catch (e) {
-
-    // Match usage of scope
-    var scopeRE = /\s*:scope\s*/gi;
+    var rxTest = /(?:^|,)\s*:scope\s+/,
+      rxStart = /^\s*:scope\s+/i,
+      rxOthers = /,\s*:scope\s+/gi;
 
     // Overrides
     function overrideNodeMethod(prototype, methodName) {
@@ -24,12 +24,12 @@
 
       // Override the method
       prototype[methodName] = function(query) {
-        var nodeList, parentNode, frag,
+        var nodeList, parentNode, frag, idSelector,
           gaveId = false,
           gaveContainer = false,
           parentIsFragment = false;
 
-        if (query.match(scopeRE)) {
+        if (rxTest.test(query)) {
 
           if (!this.parentNode) {
             // Add to temporary container
@@ -52,7 +52,8 @@
           }
 
           // replace :scope with ID selector
-          query = query.replace(scopeRE, '#' + this.id + ' ');
+          idSelector = '#' + this.id + ' ';
+          query = query.replace(rxStart, idSelector).replace(rxOthers, ', ' + idSelector);
 
           // Find elements against parent node
           nodeList = oldMethod.call(parentNode, query);
