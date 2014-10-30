@@ -13,8 +13,9 @@
     container.querySelectorAll(':scope *');
   }
   catch (e) {
-    // Match usage of scope
-    var scopeRE = /^\s*:scope/gi;
+    var rxTest = /(?:^|,)\s*:scope\s+/,
+      rxStart = /^\s*:scope\s+/i,
+      rxOthers = /,\s*:scope\s+/gi;
 
     // Overrides
     function overrideNodeMethod(prototype, methodName) {
@@ -23,18 +24,23 @@
 
       // Override the method
       prototype[methodName] = function(query) {
-        var nodeList,
-            gaveId = false,
-            gaveContainer = false;
+        var nodeList, parentNode, frag, idSelector,
+          gaveId = false,
+          gaveContainer = false,
+          parentIsFragment = false;
 
-        if (query.match(scopeRE)) {
-          // Remove :scope
-          query = query.replace(scopeRE, '');
+        if (rxTest.test(query)) {
 
           if (!this.parentNode) {
             // Add to temporary container
             container.appendChild(this);
             gaveContainer = true;
+          }
+
+          if (this.parentNode instanceof DocumentFragment) {
+            frag = this.parentNode;
+            while (frag.firstChild) container.appendChild(frag.firstChild);
+            parentIsFragment = true;
           }
 
           parentNode = this.parentNode;
@@ -45,8 +51,12 @@
             gaveId = true;
           }
 
+          // replace :scope with ID selector
+          idSelector = '#' + this.id + ' ';
+          query = query.replace(rxStart, idSelector).replace(rxOthers, ', ' + idSelector);
+
           // Find elements against parent node
-          nodeList = oldMethod.call(parentNode, '#'+this.id+' '+query);
+          nodeList = oldMethod.call(parentNode, query);
 
           // Reset the ID
           if (gaveId) {
@@ -54,7 +64,9 @@
           }
 
           // Remove from temporary container
-          if (gaveContainer) {
+          if (parentIsFragment) {
+            while (container.firstChild) frag.appendChild(container.firstChild);
+          } else if (gaveContainer) {
             container.removeChild(this);
           }
 
