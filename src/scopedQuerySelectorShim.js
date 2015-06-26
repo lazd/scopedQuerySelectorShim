@@ -37,7 +37,7 @@
             gaveContainer = true;
           }
 
-          parentNode = this.parentNode;
+          var parentNode = this.parentNode;
 
           if (!this.id) {
             // Give temporary ID
