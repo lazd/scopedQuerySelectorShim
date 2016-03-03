@@ -1,10 +1,12 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    year: new Date().getFullYear(),
     jshint: {
       gruntfile: 'Gruntfile.js',
       tests: 'test/*.js',
@@ -30,6 +32,27 @@ module.exports = function(grunt) {
         singleRun: true
       }
     },
+    uglify:{
+        options:{
+            banner:'/* scopeQuerySelectorShim.js' + '\n*' + '\n* Copyright (C) <%= year %> Larry Davis' + '\n* All rights reserved.' + '\n*' + '\n* This software may be modified and distributed under the terms' + '\n* of the BSD license.  See the LICENSE file for details.' + '\n*/\n'
+        },
+        expanded:{
+            options:{
+                mangle:false,
+                compress:false,
+                beautify:true,
+                preserveComments:true
+            },
+            files:{
+                'dist/scopedQuerySelectorShim.js':[ 'src/scopedQuerySelectorShim.js' ]
+            }
+        },
+        minified:{
+            files:{
+                'dist/scopedQuerySelectorShim.min.js':[ 'src/scopedQuerySelectorShim.js' ]
+            }
+        }
+    },
     watchFiles: {
       gruntfile: {
         files: 'Gruntfile.js',
@@ -37,7 +60,7 @@ module.exports = function(grunt) {
       },
       src: {
         files: [ 'src/**' ],
-        tasks: [ 'jshint:src', 'karma:watch:run' ]
+        tasks: [ 'jshint:src', 'uglify', 'karma:watch:run' ]
       },
       unitTests: {
         files: [ 'test/*.js' ],
