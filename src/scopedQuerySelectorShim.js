@@ -1,3 +1,8 @@
+/*
+Copyright (c) 2014, Lawrence Davis
+All rights reserved.
+https://github.com/lazd/scopedQuerySelectorShim
+*/
 (function() {
   if (!HTMLElement.prototype.querySelectorAll) {
     throw new Error('rootedQuerySelectorAll: This polyfill can only be used with browsers that support querySelectorAll');
