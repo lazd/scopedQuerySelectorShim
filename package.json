@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "author": "Larry Davis <lazdnet@gmail.com>",
   "description": "querySelector/querySelectorAll shims that enable the use of :scope",
-  "license": "Public Domain",
+  "license": "BSD-2",
+  "main": "src/scopedQuerySelectorShim.js",
   "scripts": {
     "test": "grunt test"
   },

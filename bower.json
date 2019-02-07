@@ -1,0 +1,25 @@
+{
+  "name": "scopedQuerySelectorShim",
+  "homepage": "https://github.com/lazd/scopedQuerySelectorShim",
+  "authors": [
+    "Larry Davis <lazdnet@gmail.com>"
+  ],
+  "description": "querySelector/querySelectorAll shims that enable the use of :scope",
+  "main": "src/scopedQuerySelectorShim.js",
+  "keywords": [
+    "JavaScript",
+    "querySelectorAll",
+    "querySelector"
+  ],
+  "license": "BSD-2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "gruntfile.js",
+    "karma.conf.js",
+    "package.json",
+    "README.md"
+  ]
+}
